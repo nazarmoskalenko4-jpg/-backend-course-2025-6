@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
- "start": "nodemon index.js --host localhost -p 3000 -c ./cache"
-},
+    "start": "nodemon index.js --host localhost -p 3000 -c ./cache"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "commander": "^14.0.2",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
     "superagent": "^10.2.3"
   },
   "devDependencies": {
