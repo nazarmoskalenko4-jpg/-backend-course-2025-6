@@ -68,6 +68,75 @@ app.get('/inventory/:id', (req, res) => {
     res.json(item);
 });
 
+// PUT /inventory/:id - Оновлення імені або опису
+app.put('/inventory/:id', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) return res.status(404).send('Not found');
+
+    const { name, description } = req.body;
+    if (name) item.name = name;
+    if (description) item.description = description;
+
+    res.json(item);
+});
+
+// GET /inventory/:id/photo - Отримання фото
+app.get('/inventory/:id/photo', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item || !item.photo) return res.status(404).send('Not found');
+    res.sendFile(path.resolve(item.photo));
+});
+
+// PUT /inventory/:id/photo - Оновлення фото
+app.put('/inventory/:id/photo', upload.single('photo'), (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) return res.status(404).send('Not found');
+
+    if (req.file) {
+        // Видаляємо старе фото, якщо воно було (не обов'язково, але корисно)
+        if (item.photo && fs.existsSync(item.photo)) {
+            fs.unlinkSync(item.photo);
+        }
+        item.photo = req.file.path;
+    }
+    res.json(item);
+});
+
+// DELETE /inventory/:id - Видалення речі
+app.delete('/inventory/:id', (req, res) => {
+    const index = inventory.findIndex(i => i.id === req.params.id);
+    if (index === -1) return res.status(404).send('Not found');
+
+    const deletedItem = inventory.splice(index, 1)[0];
+    // Видаляємо файл фото при видаленні запису
+    if (deletedItem.photo && fs.existsSync(deletedItem.photo)) {
+        fs.unlinkSync(deletedItem.photo);
+    }
+
+    res.send(`Item ${deletedItem.id} deleted`);
+});
+
+// POST /search - Пошук пристрою (обробка форми)
+app.post('/search', (req, res) => {
+    const { id, includePhoto } = req.body;
+    const item = inventory.find(i => i.id === id);
+
+    if (!item) {
+        return res.status(404).send('Item not found');
+    }
+
+    // Створюємо копію, щоб не змінювати оригінал, якщо просто показуємо
+    const responseItem = { ...item };
+
+    // Якщо галочка "includePhoto" натиснута, вона приходить як 'on'
+    if (includePhoto === 'on' && item.photo) {
+        const photoUrl = `http://${options.host}:${options.port}/${item.photo}`;
+        responseItem.description += ` \n[Photo: ${photoUrl}]`;
+    }
+
+    res.json(responseItem);
+});
+
 // --- Ендпоінти для видачі HTML сторінок ---
 
 // GET /RegisterForm.html
