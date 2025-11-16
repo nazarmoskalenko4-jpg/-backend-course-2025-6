@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+ "start": "nodemon index.js --host localhost -p 3000 -c ./cache"
+},
   "keywords": [],
   "author": "",
   "license": "ISC",
