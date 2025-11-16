@@ -20,6 +20,7 @@ const app = express();
 // Налаштування для зчитування даних
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
 
 // Налаштування Multer для збереження фото в папку uploads
 const upload = multer({ dest: 'uploads/' });
@@ -51,6 +52,20 @@ app.post('/register', upload.single('photo'), (req, res) => {
 
     // Повертаємо статус 201 (Created) 
     res.status(201).send(`Item registered with ID: ${newItem.id}`);
+});
+
+// GET /inventory - Отримання списку всіх речей
+app.get('/inventory', (req, res) => {
+    res.json(inventory);
+});
+
+// GET /inventory/:id - Отримання інформації про конкретну річ
+app.get('/inventory/:id', (req, res) => {
+    const item = inventory.find(i => i.id === req.params.id);
+    if (!item) {
+        return res.status(404).send('Not found'); // 404 якщо не знайдено
+    }
+    res.json(item);
 });
 
 // --- Ендпоінти для видачі HTML сторінок ---
