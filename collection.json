@@ -1,0 +1,103 @@
+{
+	"info": {
+		"_postman_id": "e4915438-a327-4293-876a-ed85c516ffcd",
+		"name": "Lab 6 Inventory",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "50124749",
+		"_collection_link": "https://nazarmoskalenko4-8358099.postman.co/workspace/%D0%9D%D0%B0%D0%B7%D0%B0%D1%80-%D0%9C%D0%BE%D1%81%D0%BA%D0%B0%D0%BB%D0%B5%D0%BD%D0%BA%D0%BE's-Workspace~655710fb-b175-4f18-8f77-9fa72c5db5fb/collection/50124749-e4915438-a327-4293-876a-ed85c516ffcd?action=share&source=collection_link&creator=50124749"
+	},
+	"item": [
+		{
+			"name": "Register Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "inventory_name",
+							"value": "Test Item",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "Test description",
+							"type": "text"
+						},
+						{
+							"key": "photo",
+							"type": "file",
+							"src": "postman-cloud:///1f0c8812-a7d5-4a80-b3a5-a54553ebbea1"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "id",
+							"value": "1763911771957",
+							"type": "text"
+						},
+						{
+							"key": "has_photo",
+							"value": "on",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/search",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/inventory",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
